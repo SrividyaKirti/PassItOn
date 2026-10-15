@@ -38,6 +38,10 @@ phased playbook the agent follows, using only built-in agent tools.
 skills/passiton/SKILL.md                      # the skill
 skills/passiton/reference/category-rules.md   # per-category donation fit + safety rules
 tests/scenarios.md                            # baseline + with-skill test scenarios
+scripts/validate-skills.py                    # CI: frontmatter + referenced-file checks
+.github/workflows/ci.yml                      # CI on PRs to main
+.github/workflows/release.yml                 # tag → GitHub Release with skill zip
+.markdownlint.jsonc, .lycheeignore            # lint/link-check config
 README.md                                     # what it is + install instructions
 docs/superpowers/specs/2026-10-15-passiton-skill-design.md
 ```
@@ -202,3 +206,43 @@ documented in `tests/scenarios.md`:
 Pass criteria for each with-skill run: plan file exists with all sections, sources cited for
 claims, no posting/login attempted, no personal info in listings, correct short-circuit for
 scenario 2. Baseline runs (without the skill) are recorded to show what the skill adds.
+
+These scenarios need a live agent with web access, so they are run manually before a release
+and are **not** part of CI.
+
+## CI/CD
+
+### Branching
+- `main` is protected: no direct pushes; changes land only via pull request with passing CI.
+- Work happens on feature/release branches (v1 work on `v1.0`), merged to `main` by PR.
+
+### CI — `.github/workflows/ci.yml`
+Runs on `pull_request` to `main` and on `push` to `main`. Jobs:
+
+1. **Skill frontmatter validation** — a small script (`scripts/validate-skills.py`, stdlib
+   only + PyYAML) checks every `skills/*/SKILL.md`:
+   - YAML frontmatter parses;
+   - `name` present, kebab-case, and matches its directory name;
+   - `description` present, starts with "Use when", ≤ 1024 chars;
+   - `allowed-tools` present and a non-empty list.
+2. **Referenced files exist** — the same script checks that every relative path referenced
+   from a `SKILL.md` (e.g. `reference/category-rules.md`) exists in the skill directory.
+3. **Markdown lint** — `markdownlint-cli2` over `**/*.md` with a repo `.markdownlint.jsonc`
+   (line length rule disabled; plan/listing templates need long lines).
+4. **Link check** — `lychee` over `README.md`, `skills/**/*.md`, and `docs/**/*.md`; external
+   link failures are reported but retried, with a `.lycheeignore` for known-flaky hosts.
+
+### CD — `.github/workflows/release.yml`
+- Triggered by pushing a tag matching `v*.*.*` (e.g. `v1.0.0`) on a commit already on `main`.
+- Re-runs the CI checks, then packages `skills/passiton/` as `passiton-skill-<version>.zip`
+  and publishes a GitHub Release with the zip attached and auto-generated notes.
+- The README install section points to the latest release zip as an alternative to cloning.
+
+### Branch protection (repo setting, not code)
+After `ci.yml` exists on `main`, configure a ruleset on `main` via `gh`/GitHub UI: require a
+pull request, require the CI status checks to pass, block force-pushes and deletions. This
+changes GitHub repo settings and is applied only with the owner's explicit confirmation.
+
+### Bootstrapping order
+Because `main` currently has no CI, the first PR (`v1.0` → `main`) introduces the workflows;
+branch protection is enabled immediately after that PR merges.
