@@ -1,0 +1,7 @@
+# The repo's own releases page 404s until the first release exists.
+^https://github\.com/SrividyaKirti/PassItOn/releases
+# Placeholder hosts used in tests and templates.
+^https?://example\.com
+# Government recall sites block automated clients (HTTP 403).
+^https://www\.cpsc\.gov
+^https://www\.nhtsa\.gov
