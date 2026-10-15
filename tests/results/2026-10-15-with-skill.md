@@ -72,3 +72,9 @@ crash"; after the fix the category rule itself triggers the short-circuit.
 - Car seat rule: any crash (even minor), unknown history, or missing labels means do not pass on.
 - New "no web access" behavior: plan marked `Unresearched: no web access`, all facts unverified.
 - Safe-handoff payment tip no longer says "confirmed instant payment" (fake-confirmation scam).
+
+## S1 re-run after the review fixes
+
+All 7 S1 criteria PASS again: all sections present, $300 / $400 / $500 band (Low confidence),
+5 sourced or "Unverified — call first" options, all 6 platform listings, `415-555-0134`
+appears 0 times, read-only research only. The new payment tip appears in Safe handoff.
