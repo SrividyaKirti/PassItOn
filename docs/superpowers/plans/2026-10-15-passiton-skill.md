@@ -57,12 +57,14 @@
 ### Task 1: Skill validator script
 
 **Files:**
+
 - Create: `requirements-dev.txt`
 - Create: `.gitignore`
 - Create: `scripts/validate-skills.py`
 - Test: `tests/test_validate_skills.py`
 
 **Interfaces:**
+
 - Consumes: nothing.
 - Produces: `python scripts/validate-skills.py [repo_root]` → exit 0 and prints `ok: N skill(s) valid`, or exit 1 and prints `error: ...` lines to stderr. Python functions `parse_frontmatter(text: str) -> tuple[dict | None, str, str | None]`, `referenced_paths(body: str) -> set[str]`, `validate_skill(skill_dir: Path) -> list[str]`, `main(argv: list[str]) -> int`.
 
@@ -389,12 +391,14 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ### Task 2: CI workflow and lint configuration
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 - Create: `.markdownlint.jsonc`
 - Create: `.lycheeignore`
 - Modify (only if lint reports issues): existing `*.md` files
 
 **Interfaces:**
+
 - Consumes: `scripts/validate-skills.py`, `requirements-dev.txt`, `tests/` (Task 1).
 - Produces: workflow `CI` with jobs `validate`, `markdownlint`, `links` (these job ids are the status-check names used in Task 6). Callable from other workflows via `workflow_call`.
 
@@ -503,10 +507,12 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 Per superpowers:writing-skills, record what an agent does **without** the skill before writing it.
 
 **Files:**
+
 - Create: `tests/scenarios.md`
 - Create: `tests/results/<YYYY-MM-DD>-baseline.md` (date of the run)
 
 **Interfaces:**
+
 - Consumes: nothing.
 - Produces: scenario IDs `S1`, `S2`, `S3`, the runner prompt template, and pass criteria reused in Task 4.
 
@@ -640,11 +646,13 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ### Task 4: The passiton skill (GREEN, then close loopholes)
 
 **Files:**
+
 - Create: `skills/passiton/reference/category-rules.md`
 - Create: `skills/passiton/SKILL.md`
 - Create: `tests/results/<YYYY-MM-DD>-with-skill.md`
 
 **Interfaces:**
+
 - Consumes: validator (Task 1), scenarios + baseline gaps (Task 3).
 - Produces: `skills/passiton/SKILL.md` (name `passiton`) referencing `reference/category-rules.md`, whose section headings are the category names used in SKILL.md Phase 1.
 
@@ -1087,10 +1095,12 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ### Task 5: Release workflow and README
 
 **Files:**
+
 - Create: `.github/workflows/release.yml`
 - Modify: `README.md` (full rewrite)
 
 **Interfaces:**
+
 - Consumes: `.github/workflows/ci.yml` via `workflow_call` (Task 2); `skills/passiton/` (Task 4).
 - Produces: on tag `vX.Y.Z` on `main`, a GitHub Release with `passiton-skill-vX.Y.Z.zip`.
 
@@ -1247,6 +1257,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Files:** none (GitHub operations).
 
 **Interfaces:**
+
 - Consumes: branch `v1.0` with Tasks 1–5; CI job ids `validate`, `markdownlint`, `links`.
 - Produces: an open PR `v1.0` → `main` with passing CI; after merge and owner confirmation, a ruleset protecting `main`.
 

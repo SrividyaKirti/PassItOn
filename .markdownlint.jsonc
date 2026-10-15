@@ -7,5 +7,7 @@
   // Plain-text fences (file trees, listings) don't need a language.
   "MD040": false,
   // Plan templates repeat subsection names under different parents.
-  "MD024": { "siblings_only": true }
+  "MD024": { "siblings_only": true },
+  // Compact |---| delimiter rows are used throughout; column style is not enforced.
+  "MD060": false
 }

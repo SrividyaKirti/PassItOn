@@ -66,6 +66,7 @@ Triggers (in description): "sell my", "donate", "give away", "get rid of", "decl
 ## Phases
 
 ### Phase 0 — Intake
+
 Collect: item (what it is), brand/model if known, condition, photos (optional file paths),
 location (zip or city), urgency (this week / no rush), logistics (can drive / can ship /
 pickup only). Read any photos to infer brand, model, condition and visible wear. Ask for
@@ -73,6 +74,7 @@ anything missing in **one** AskUserQuestion call (max 4 questions). Location: as
 declined, proceed with national/shipping options and state that in the plan.
 
 ### Phase 1 — Assess & safety
+
 - Identify item category and grade condition: Like new / Good / Fair / Worn.
 - Consult `reference/category-rules.md` for the category.
 - Recall check: WebSearch CPSC (cpsc.gov/Recalls), and NHTSA for car seats, by brand + model.
@@ -82,6 +84,7 @@ declined, proceed with national/shipping options and state that in the plan.
   dispose, with source links.
 
 ### Phase 2 — Value
+
 - WebSearch/WebFetch comparable listings: eBay sold listings, Craigslist, OfferUp, Mercari,
   publicly visible Marketplace pages; brand resale programs if they exist.
 - Produce a price band: **Quick sale / Fair / Patient**, each with 2+ comp links.
@@ -89,6 +92,7 @@ declined, proceed with national/shipping options and state that in the plan.
   yourself" next step.
 
 ### Phase 3 — Find homes
+
 - Donation orgs near the location that accept **this category**, guided by
   `category-rules.md` (e.g. stroller → pregnancy resource centers, family shelters,
   diaper banks / baby-gear nonprofits, Goodwill / Salvation Army; also Buy Nothing groups).
@@ -99,6 +103,7 @@ declined, proceed with national/shipping options and state that in the plan.
 - Target 3–6 ranked options.
 
 ### Phase 4 — Recommend
+
 Weigh resale value vs effort vs speed vs impact (and urgency/logistics from intake).
 Present a decision via AskUserQuestion: Sell / Donate / Give away (Buy Nothing / free
 listing), with the recommended option first and marked "(Recommended)", each with a one-line
@@ -106,6 +111,7 @@ reason. The user's choice determines emphasis in Phase 5 (the other paths stay i
 alternatives).
 
 ### Phase 5 — Drafts
+
 - One ready-to-paste block per relevant platform: Facebook Marketplace, Nextdoor, Craigslist,
   OfferUp, Buy Nothing, and a short WhatsApp/community-group blurb. Each: title, price (or
   "Free"), body tailored to the platform's norms/length, tags/category.
@@ -114,6 +120,7 @@ alternatives).
   cash/verified payment only.
 
 ### Phase 6 — Write plan
+
 Write `./passiton/<item-slug>/plan.md` (slug: lowercase brand-model-item, e.g.
 `uppababy-vista-stroller`). If it exists, ask before overwriting. Then print a ≤10-line chat
 summary: recommendation, price band, top option, file path, next 3 actions.
@@ -213,10 +220,12 @@ and are **not** part of CI.
 ## CI/CD
 
 ### Branching
+
 - `main` is protected: no direct pushes; changes land only via pull request with passing CI.
 - Work happens on feature/release branches (v1 work on `v1.0`), merged to `main` by PR.
 
 ### CI — `.github/workflows/ci.yml`
+
 Runs on `pull_request` to `main` and on `push` to `main`. Jobs:
 
 1. **Skill frontmatter validation** — a small script (`scripts/validate-skills.py`, stdlib
@@ -233,16 +242,19 @@ Runs on `pull_request` to `main` and on `push` to `main`. Jobs:
    link failures are reported but retried, with a `.lycheeignore` for known-flaky hosts.
 
 ### CD — `.github/workflows/release.yml`
+
 - Triggered by pushing a tag matching `v*.*.*` (e.g. `v1.0.0`) on a commit already on `main`.
 - Re-runs the CI checks, then packages `skills/passiton/` as `passiton-skill-<version>.zip`
   and publishes a GitHub Release with the zip attached and auto-generated notes.
 - The README install section points to the latest release zip as an alternative to cloning.
 
 ### Branch protection (repo setting, not code)
+
 After `ci.yml` exists on `main`, configure a ruleset on `main` via `gh`/GitHub UI: require a
 pull request, require the CI status checks to pass, block force-pushes and deletions. This
 changes GitHub repo settings and is applied only with the owner's explicit confirmation.
 
 ### Bootstrapping order
+
 Because `main` currently has no CI, the first PR (`v1.0` → `main`) introduces the workflows;
 branch protection is enabled immediately after that PR merges.
