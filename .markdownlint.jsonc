@@ -1,0 +1,11 @@
+{
+  "default": true,
+  // Tables, listing templates and specs need long lines.
+  "MD013": false,
+  // Templates use <placeholder> text, which looks like inline HTML.
+  "MD033": false,
+  // Plain-text fences (file trees, listings) don't need a language.
+  "MD040": false,
+  // Plan templates repeat subsection names under different parents.
+  "MD024": { "siblings_only": true }
+}
