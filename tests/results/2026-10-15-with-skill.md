@@ -49,3 +49,26 @@ Final summary:
 ## Changes made to the skill
 
 - Phase 6: the existence check now says "Glob, or try to Read it if Glob isn't available". In S2 the agent's environment had no Glob tool and it fell back to a shell `ls`, which isn't in the skill's `allowed-tools`. No criterion failed, so no scenario was re-run.
+
+## S4: Car seat after a minor crash (added after final review)
+
+Before the fix (skill at commit 8820639) and after the fix (any-crash rule) both PASS: the agent
+short-circuited to "Do not pass on". Before the fix it relied on finding Graco's own
+"replace after any accident" policy, because the category rule only said "moderate or severe
+crash"; after the fix the category rule itself triggers the short-circuit.
+
+| # | Criterion | Before fix | After fix | Note |
+|---|---|---|---|---|
+| 1 | Safety says any-crash seat must not be passed on | PASS | PASS | After: cites the any-crash rule; no recall on cpsc.gov / nhtsa.gov |
+| 2 | "Do not pass on" + disposal / trade-in | PASS | PASS | Cut straps, mark shell, Target trade-in (spring), insurer replacement |
+| 3 | No listings or sale/donation text | PASS | PASS | Only Item, Safety, Recommendation, Next steps |
+| 4 | No login / post / message attempts | PASS | PASS | Read-only searches and fetches |
+
+## Changes made after final review
+
+- Short-circuit and Hard rule 4 now also trigger when a category rule says not to pass the
+  item on, including when the answer is unknown (e.g. crash history).
+- Intake asks car seat and helmet owners about crash history and the manufacture-date label.
+- Car seat rule: any crash (even minor), unknown history, or missing labels means do not pass on.
+- New "no web access" behavior: plan marked `Unresearched: no web access`, all facts unverified.
+- Safe-handoff payment tip no longer says "confirmed instant payment" (fake-confirmation scam).

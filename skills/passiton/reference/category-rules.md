@@ -19,7 +19,8 @@ closets, baby-gear nonprofits (e.g. Baby2Baby, Cradles to Crayons, Room to Grow;
 **Safety rules:**
 
 - **Car seats:** have an expiration date (usually 6–10 years from manufacture) on a label or
-  stamped into the shell. Expired, or in a moderate or severe crash: do not pass on. Most
+  stamped into the shell. Expired, in any crash (even minor), crash history unknown, or
+  labels missing so it can't be dated: do not pass on. Most
   charities refuse used car seats. Disposal: cut the straps and mark the shell "EXPIRED"
   before recycling; retailer trade-in events (e.g. Target's car seat trade-in) take them.
 - **Cribs:** drop-side cribs are banned in the US and must not be sold or donated. Cribs made

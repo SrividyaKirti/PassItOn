@@ -31,8 +31,9 @@ These apply in every phase. Breaking one fails the run.
 3. **No personal info in listings.** Listing and outreach text never contains the user's
    street address, phone number, email, or full name, even if the user gave them to you. Use
    placeholders: `<your first name>`, `pickup near <neighborhood or cross streets>`.
-4. **Unsafe items are never passed on.** A recalled, expired, or banned item gets no sale,
-   donation, or giveaway listings (see Phase 1).
+4. **Unsafe items are never passed on.** A recalled, expired, or banned item, or one that a
+   category rule says not to pass on (e.g. a car seat or helmet with any crash history), gets
+   no sale, donation, or giveaway listings (see Phase 1).
 5. **Few questions.** Ask at most: one batched intake question (Phase 0), the decision
    (Phase 4), and an overwrite confirmation (Phase 6) if needed.
 
@@ -49,6 +50,7 @@ Collect these facts, starting from what the user already said:
 | Location | zip code or city |
 | Urgency | this week / no rush |
 | Logistics | can drop off / pickup only / can ship |
+| Safety history (car seats, helmets only) | any crash, even minor? manufacture-date label still present? |
 
 If the user gave photo paths, Read each one. Use the photos to identify brand, model, visible
 wear, and included accessories. If a path doesn't exist or can't be read, say so in one line
@@ -57,6 +59,10 @@ and continue from the text.
 Ask for whatever is still missing in **one** AskUserQuestion call (up to 4 questions; combine
 urgency and logistics if needed). Don't ask about anything you can see in the photos. If
 AskUserQuestion isn't available, ask the same questions in one plain message and wait.
+
+If WebSearch or WebFetch isn't available, say so up front and still write the plan: put
+`Unresearched: no web access` in the plan header, mark recall status, prices and every option
+as unverified, and tell the user to check cpsc.gov before passing the item on.
 
 If the user won't give a location, continue with national and shipping options, and write
 `No location given: local options not researched` in the plan header and Options section.
@@ -74,7 +80,8 @@ If the user won't give a location, continue with national and shipping options, 
    found for <brand model> on cpsc.gov (searched <date>)" is a result.
 4. Apply the category's safety rules (e.g. car seat expiration, banned products).
 
-**Short-circuit.** If the item is recalled, expired, or banned:
+**Short-circuit.** If the item is recalled, expired, or banned, or the category rules say not
+to pass it on (including when the answer is unknown, e.g. a car seat's crash history):
 
 - Skip Phases 2–5.
 - In the plan, explain why it can't be passed on, citing the source.
@@ -165,8 +172,9 @@ script: what the item is, its condition, whether they currently need it, and dro
 pickup times.
 
 **Safe handoff tips** (always include): meet in a public place or do a porch pickup; get cash or
-a confirmed instant payment before handing over; don't share your address until a pickup is
-agreed; for electronics, wipe and reset first.
+a payment you have seen arrive in your own app or bank account (a screenshot or "payment
+sent" email doesn't count) before handing over; never accept checks or overpayment refunds;
+don't share your address until a pickup is agreed; for electronics, wipe and reset first.
 
 ## Phase 6: Write the plan
 
