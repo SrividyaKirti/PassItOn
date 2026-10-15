@@ -150,3 +150,10 @@ def test_main_fails_when_no_skills(tmp_path, capsys):
     assert "no skills found" in capsys.readouterr().err
     (tmp_path / "skills").mkdir()
     assert vs.main(["validate-skills.py", str(tmp_path)]) == 1
+
+
+def test_non_utf8_skill_md_reports_error(tmp_path):
+    skill_dir = make_skill(tmp_path)
+    (skill_dir / "SKILL.md").write_bytes(VALID.replace("validator", "valid\xe9").encode("latin-1"))
+    errors = vs.validate_skill(skill_dir)
+    assert len(errors) == 1 and "cannot read as UTF-8" in errors[0]

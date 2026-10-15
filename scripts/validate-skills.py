@@ -54,7 +54,11 @@ def validate_skill(skill_dir: Path) -> list[str]:
     if not skill_file.is_file():
         return [f"{skill_dir}: missing SKILL.md"]
     # utf-8-sig drops a BOM; text mode normalizes CRLF to LF.
-    data, body, error = parse_frontmatter(skill_file.read_text(encoding="utf-8-sig"))
+    try:
+        text = skill_file.read_text(encoding="utf-8-sig")
+    except (UnicodeDecodeError, OSError) as exc:
+        return [f"{skill_file}: cannot read as UTF-8: {exc}"]
+    data, body, error = parse_frontmatter(text)
     if error:
         return [f"{skill_file}: {error}"]
 
